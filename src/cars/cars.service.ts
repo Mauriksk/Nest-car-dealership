@@ -1,21 +1,40 @@
-import { Injectable } from '@nestjs/common';
-import { NotFoundException } from '@nestjs/common/exceptions';
+import { Injectable, NotFoundException } from '@nestjs/common';
+
+import { v4 as uuid } from 'uuid'
+import { Car } from './interface/car.interface';
 
 @Injectable()
 export class CarsService {
-  private cars = [
-    { id: 1, brand: 'Toyota' },
-    { id: 2, brand: 'Honda' },
-    { id: 3, brand: 'Jeep' },
-  ];
 
-  findAll() {
-    return this.cars;
-  }
+    private cars: Car[] = [
+        {
+            id: uuid(),
+            brand: 'Toyota',
+            model: 'Corolla' 
+        },
+        {
+            id: uuid(),
+            brand: 'Honda',
+            model: 'Civic' 
+        },
+        {
+            id: uuid(),
+            brand: 'Jeep',
+            model: 'Cherokee' 
+        },
+    ];
 
-  findOneById(id: number) {
-    const car = this.cars.find((car) => car.id === id);
-    if(!car) throw new NotFoundException(`Car with id '${id}' not found`);
-    return car;
-  }
+
+    findAll() {
+        return this.cars;
+    }
+
+    findOneById( id: string ) {
+        
+        const car = this.cars.find( car => car.id === id );
+        if ( !car ) throw new NotFoundException(`Car with id '${ id }' not found`);
+        
+        return car;
+    }
+
 }
