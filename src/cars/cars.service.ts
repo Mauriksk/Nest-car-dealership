@@ -46,7 +46,25 @@ export class CarsService {
     return car;
   }
 
-  update( id: string, UpdateCarDto: UpdateCarDto ) {
-    
+  update(id: string, UpdateCarDto: UpdateCarDto) {
+    let carDB = this.findOneById(id);
+    this.cars = this.cars.map((car) => {
+      if (car.id === id) {
+        carDB = {
+          ...carDB,
+          ...UpdateCarDto,
+          id,
+        };
+
+        return car;
+      }
+    });
+
+    return carDB;
+  }
+
+  delete(id: string) {
+    this.findOneById(id)
+    this.cars = this.cars.filter( car => car.id !== id)
   }
 }
